@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartSpend Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow p-4 flex justify-between items-center">
+    <a href="index.html" class="text-lg font-bold text-green-600">← Home</a>
+    <h1 class="text-2xl font-semibold">SmartSpend Dashboard</h1>
+  </nav>
+
+  <!-- Main Dashboard -->
+  <main class="max-w-6xl mx-auto py-10 px-4 grid gap-8 md:grid-cols-2">
+
+    <!-- Wallet -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-bold text-green-600 mb-3">💳 Wallet</h2>
+      <p class="text-gray-700 text-lg">Total Balance: <span class="font-bold">₹12,500</span></p>
+      <p class="text-sm text-gray-500">Last Updated: <span id="wallet-update">Today</span></p>
+    </section>
+
+    <!-- Income Overview -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-bold text-green-600 mb-3">📈 Income This Month</h2>
+      <p class="text-gray-700 text-lg">Total: <span class="font-bold">₹25,000</span></p>
+      <ul class="mt-2 text-sm text-gray-600 list-disc pl-5">
+        <li>Salary - ₹20,000</li>
+        <li>Freelancing - ₹5,000</li>
+      </ul>
+    </section>
+
+    <!-- Expenses Overview -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-bold text-green-600 mb-3">📉 Expenses</h2>
+      <p class="text-gray-700 text-lg">Total: <span class="font-bold">₹12,500</span></p>
+      <ul class="mt-2 text-sm text-gray-600 list-disc pl-5">
+        <li>Food - ₹3,000</li>
+        <li>Transport - ₹2,000</li>
+        <li>Utilities - ₹2,500</li>
+        <li>Other - ₹5,000</li>
+      </ul>
+    </section>
+
+    <!-- Add Daily Income -->
+    <section class="bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-bold text-green-600 mb-3">➕ Add Today's Income</h2>
+      <form id="income-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Source</label>
+          <input type="text" id="income-source" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g., Freelancing" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Amount (₹)</label>
+          <input type="number" id="income-amount" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g., 1000" required>
+        </div>
+        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Add Income</button>
+      </form>
+    </section>
+
+    <!-- Daily Income List -->
+    <section class="md:col-span-2 bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+      <h2 class="text-xl font-bold text-green-600 mb-3">📅 Daily Income Log</h2>
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b text-gray-700">
+            <th class="py-2">Date</th>
+            <th>Source</th>
+            <th>Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="income-log">
+          <tr class="border-b">
+            <td class="py-2">2025-05-22</td>
+            <td>Online Tutoring</td>
+            <td>₹1,200</td>
+          </tr>
+          <tr class="border-b">
+            <td class="py-2">2025-05-23</td>
+            <td>Bonus</td>
+            <td>₹500</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Simple JS for income log -->
+  <script>
+    document.getElementById('income-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const source = document.getElementById('income-source').value;
+      const amount = document.getElementById('income-amount').value;
+      const today = new Date().toISOString().slice(0, 10);
+
+      const newRow = document.createElement('tr');
+      newRow.classList.add('border-b');
+      newRow.innerHTML = `
+        <td class="py-2">${today}</td>
+        <td>${source}</td>
+        <td>₹${amount}</td>
+      `;
+
+      document.getElementById('income-log').appendChild(newRow);
+
+      // Reset form
+      document.getElementById('income-form').reset();
+    });
+
+    // Redirect to login if not logged in
+  window.onload = function () {
+    const email = localStorage.getItem("loggedInEmail");
+    if (!email) {
+      window.location.href = "index.html"; // 👈 Redirect to login if not logged in
+    }
+  };
+
+  window.onload = function () {
+  const email = localStorage.getItem("loggedInEmail");
+  if (!email) {
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("user-email").textContent = email;
+  }
+};
+
+
+  window.onload = function () {
+    const email = localStorage.getItem("loggedInEmail");
+    if (!email) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("user-email").textContent = email;
+    }
+  };
+
+  document.getElementById('income-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const source = document.getElementById('income-source').value;
+    const amount = document.getElementById('income-amount').value;
+    const today = new Date().toISOString().slice(0, 10);
+
+    const newRow = document.createElement('tr');
+    newRow.classList.add('border-b');
+    newRow.innerHTML = `
+      <td class="py-2">${today}</td>
+      <td>${source}</td>
+      <td>₹${amount}</td>
+    `;
+
+    document.getElementById('income-log').appendChild(newRow);
+
+    // Reset form
+    document.getElementById('income-form').reset();
+  });
+
+
+
+    document.getElementById('income-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const source = document.getElementById('income-source').value;
+      const amount = document.getElementById('income-amount').value;
+      const today = new Date().toISOString().slice(0, 10);
+
+      const newRow = document.createElement('tr');
+      newRow.classList.add('border-b');
+      newRow.innerHTML = `
+        <td class="py-2">${today}</td>
+        <td>${source}</td>
+        <td>₹${amount}</td>
+      `;
+
+      document.getElementById('income-log').appendChild(newRow);
+
+      // Reset form
+      document.getElementById('income-form').reset();
+    });
+
+     // Run when page loads
+  window.onload = function () {
+    const email = localStorage.getItem("loggedInEmail");
+
+    if (!email) {
+      // Show message
+      const msgBox = document.getElementById("auth-message");
+      msgBox.textContent = "🚫 You must log in first. Redirecting to login page...";
+      msgBox.classList.remove("hidden");
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+    } else {
+      // Optional: Display logged-in email
+      const emailBox = document.createElement("div");
+      emailBox.textContent = "👤 Logged in as: " + email;
+      emailBox.className = "text-sm text-gray-600 text-right px-4 mt-2";
+      document.querySelector("nav").appendChild(emailBox);
+    }
+  };
+
+  // Handle income form submission
+  document.getElementById('income-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const source = document.getElementById('income-source').value;
+    const amount = document.getElementById('income-amount').value;
+    const today = new Date().toISOString().slice(0, 10);
+
+    const newRow = document.createElement('tr');
+    newRow.classList.add('border-b');
+    newRow.innerHTML = `
+      <td class="py-2">${today}</td>
+      <td>${source}</td>
+      <td>₹${amount}</td>
+    `;
+
+    document.getElementById('income-log').appendChild(newRow);
+
+    // Reset form
+    document.getElementById('income-form').reset();
+  });
+  </script>
+
+</body>
+</html>

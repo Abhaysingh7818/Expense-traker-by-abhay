@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - SmartSpend</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <!-- Login Form Section -->
+  <div id="loginSection" class="bg-white p-10 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login to Access Settings</h2>
+    <form onsubmit="login(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required
+               class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"/>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required
+               class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"/>
+      </div>
+      <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md font-semibold">
+        Login
+      </button>
+    </form>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="dashboardSection" class="hidden bg-white p-10 rounded-lg shadow-md w-full max-w-xl text-center">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Dashboard</h2>
+    <p class="text-gray-600 mb-6">Welcome, <span id="userEmail"></span></p>
+    <div class="space-y-4">
+      <p class="text-gray-700">⚙️ This is your settings dashboard. Customize your SmartSpend experience here!</p>
+      <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md font-semibold">
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Login logic
+    function login(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (email === "user@smartspend.com" && password === "123456") {
+        localStorage.setItem("loggedInEmail", email);
+        showDashboard(email);
+      } else {
+        alert("Invalid login. Use: user@smartspend.com / 123456");
+      }
+    }
+
+    // Show dashboard and hide login
+    function showDashboard(email) {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("dashboardSection").classList.remove("hidden");
+      document.getElementById("userEmail").textContent = email;
+    }
+
+    // Logout and refresh
+    function logout() {
+      localStorage.removeItem("loggedInEmail");
+      location.reload();
+    }
+
+    // On page load
+    window.onload = function () {
+      const email = localStorage.getItem("loggedInEmail");
+      if (email) {
+        showDashboard(email);
+      }
+    };
+  </script>
+</body>
+</html>
